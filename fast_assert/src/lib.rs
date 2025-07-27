@@ -25,7 +25,9 @@ macro_rules! fast_assert {
     };
 }
 
-#[doc(hidden)] // private implementation detail, required to make macros work from other crates
+/// Private implementation detail.
+/// `pub` is required to make macros work from other crates, so stick #[doc(hidden)] on it.
+#[doc(hidden)]
 pub mod cold {
     /// This function is marked as `#[cold]` to hint to the compiler that it's
     /// rarely executed. The compiler uses this to optimize the call site,
