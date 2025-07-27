@@ -2,6 +2,7 @@
 name = "test_crate"
 version = "0.1.0"
 edition = "2024"
+publish = false
 
 [dependencies]
 fast_assert = {path = "../fast_assert"}
