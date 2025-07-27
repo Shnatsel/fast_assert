@@ -14,7 +14,7 @@ mod tests {
             if let Some(location) = info.location() {
                 // Verify that the reported location is THIS file,
                 // not the internals of fast_assert, which would be useless
-                assert_eq!(location.file(), "test_crate/src/fast_assert_macro_tests.rs");            
+                assert_eq!(location.file(), "test_crate/src/fast_assert_macro_tests.rs");
             }
         }));
 
@@ -40,10 +40,7 @@ mod tests {
     fn holds_custom_message() {
         let x = 0;
         let y = 100;
-        fast_assert!(
-            x < y,
-            "x ({}) should be less than y ({})", x, y
-        );
+        fast_assert!(x < y, "x ({}) should be less than y ({})", x, y);
     }
 
     #[test]
@@ -51,10 +48,7 @@ mod tests {
     fn fails_custom_message() {
         let x = 100;
         let y = 0;
-        fast_assert!(
-            x < y,
-            "x ({}) should be less than y ({})", x, y
-        );
+        fast_assert!(x < y, "x ({}) should be less than y ({})", x, y);
     }
 
     #[test]
@@ -69,10 +63,7 @@ mod tests {
         let x = 100;
         let y = 0;
         verify_source_code_location(|| {
-            fast_assert!(
-                x < y,
-                "x ({}) should be less than y ({})", x, y
-            );
+            fast_assert!(x < y, "x ({}) should be less than y ({})", x, y);
         });
     }
 }

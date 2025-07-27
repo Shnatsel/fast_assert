@@ -50,10 +50,7 @@ mod tests {
     fn holds_custom_message() {
         let x = 0;
         let y = 100;
-        fast_assert!(
-            x < y,
-            "x ({}) should be less than y ({})", x, y
-        );
+        fast_assert!(x < y, "x ({}) should be less than y ({})", x, y);
     }
 
     #[test]
@@ -61,9 +58,6 @@ mod tests {
     fn fails_custom_message() {
         let x = 100;
         let y = 0;
-        fast_assert!(
-            x < y,
-            "x ({}) should be less than y ({})", x, y
-        );
+        fast_assert!(x < y, "x ({}) should be less than y ({})", x, y);
     }
 }
