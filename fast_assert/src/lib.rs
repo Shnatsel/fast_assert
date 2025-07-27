@@ -11,7 +11,9 @@ macro_rules! fast_assert {
             // If the condition is false, panic with a default message.
             // The stringify! macro converts the expression `$cond` into a string literal,
             // so the error message includes the exact code that failed.
-            $crate::cold::assert_failed_default(stringify!($cond));
+            $crate::cold::assert_failed(|| {
+                panic!("assertion failed: {}", stringify!($cond));
+            });
         }
     };
     // Rule 2: Handles calls with a condition and a custom message,
@@ -20,7 +22,7 @@ macro_rules! fast_assert {
         if !$cond {
             // We pass a closure to the cold function.
             // No code inside this closure will be generated in the hot path.
-            $crate::cold::assert_failed_custom(|| {
+            $crate::cold::assert_failed(|| {
                 panic!($($arg)+);
             });
         }
@@ -35,20 +37,6 @@ pub mod cold {
     /// rarely executed. The compiler uses this to optimize the call site,
     /// keeping the "hot path" (where the assertion succeeds) as lean as possible.
     ///
-    /// Counter-intuitively, #[inline] reduces the amount of extra instructions from 5 to 2.
-    /// It removes the assembly lines related to tracking the caller location,
-    /// which makes sense: this lets each call site have its own dedicated function
-    /// that already knows where it was called from, as opposed to all call sites
-    /// dispatching to a single function and having to tell it where they came from.
-    #[cold]
-    #[inline]
-    #[track_caller]
-    pub fn assert_failed_default(condition: &'static str) -> ! {
-        panic!("assertion failed: {}", condition);
-    }
-
-    /// A cold function for assertions with custom messages.
-    ///
     /// This function is generic over a closure `F`.
     /// `F: FnOnce()` means it accepts any closure that can be called once
     /// and takes no arguments.
@@ -59,7 +47,7 @@ pub mod cold {
     /// and will be separately instantiated for each call site.
     #[cold]
     #[track_caller]
-    pub fn assert_failed_custom<F>(msg_fn: F)
+    pub fn assert_failed<F>(msg_fn: F)
     where
         F: FnOnce(),
     {
