@@ -6,10 +6,10 @@ macro that emits far less code in the hot path, where the assertion holds.
 This reduces instruction cache pressure,
 and may allow for more optimizations by the compiler due to more aggressive inlining of hot functions.
 
-`fast_assert!` only adds two extra instructions for the default error message
-and three instructions for a custom error message into the hot path,
-while the standard library's `assert!` adds five instructions for the default error message
-in the hot path and lots for a custom error message.
+`fast_assert!` only adds [two](https://rust.godbolt.org/z/sT73vG69s) extra instructions for the default error message
+and [three](https://rust.godbolt.org/z/5dro5Tc7h) instructions for a custom error message into the hot path,
+while the standard library's `assert!` adds [five](https://rust.godbolt.org/z/Gczn8Ts54) instructions
+for the default error message in the hot path and [lots](https://rust.godbolt.org/z/hY5dGMPsh) for a custom error message.
 
 ## How?
 
@@ -20,6 +20,8 @@ can stay as lean as possible.
 By comparison, the std `assert!` emits some of the code executed only in case of a panic
 inside the function that invokes it. Even if that code isn't executed, you still pay a (small) price
 for it being present inside your hot function.
+
+You are encouraged to peruse the implementation of this crate, which is small and well-commented.
 
 ## Why not improve the standard library instead?
 
