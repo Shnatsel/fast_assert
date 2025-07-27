@@ -4,8 +4,8 @@ A drop-in replacement for the standard library's [`assert!`](https://doc.rust-la
 macro that emits far less code in the hot codepath where the assertion holds. This reduces instruction cache pressure,
 and may allow for more optimizations by the compiler due to more aggressive inlining of hot functions.
 
-`fast_assert!` only adds [two](https://rust.godbolt.org/z/sT73vG69s) extra instructions to the hot path for the default error message
-and [three](https://rust.godbolt.org/z/5dro5Tc7h) instructions for a custom error message,
+`fast_assert!` only adds [two](https://rust.godbolt.org/z/14hnj39sv) extra instructions to the hot path for the default error message
+and [three](https://rust.godbolt.org/z/fo4refc1d) instructions for a custom error message,
 while the standard library's `assert!` adds [five](https://rust.godbolt.org/z/Gczn8Ts54) instructions
 to the hot path for the default error message and [lots](https://rust.godbolt.org/z/hY5dGMPsh) for a custom error message.
 
@@ -24,11 +24,8 @@ for it being present inside your hot function.
 The standard library's `assert!` is implemented not as a macro, but as a compiler built-in,
 which makes it difficult to modify and contribute to.
 
-Improving the default message codepath should be fairly straightforward for someone familiar
-with Rust compiler internals, and I hope this crate inspires such as pull request!
-
-The custom message codepath is trickier. We use a closure to defer all argument formatting
-to a separate cold function. This works identically to std `assert!` the vast majority of the time,
+We use a closure to defer all argument formatting to a separate cold function.
+This works identically to std `assert!` the vast majority of the time,
 but there might be some edge cases in which it would break, so such a change might not be acceptable
 for the standard library, at least outside a new language edition. Or maybe it's fine - who knows?
 
