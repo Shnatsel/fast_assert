@@ -32,7 +32,14 @@ pub mod cold {
     /// This function is marked as `#[cold]` to hint to the compiler that it's
     /// rarely executed. The compiler uses this to optimize the call site,
     /// keeping the "hot path" (where the assertion succeeds) as lean as possible.
+    ///
+    /// Counter-intuitively, #[inline] reduces the amount of extra instructions from 5 to 2.
+    /// It removes the assembly lines related to tracking the caller location,
+    /// which makes sense: this lets each call site have its own dedicated function
+    /// that already knows where it was called from, as opposed to all call sites
+    /// dispatching to a single function and having to tell it where they came from.
     #[cold]
+    #[inline]
     #[track_caller]
     pub fn assert_failed_default(condition: &'static str) -> ! {
         panic!("assertion failed: {}", condition);
@@ -45,6 +52,9 @@ pub mod cold {
     /// and takes no arguments.
     ///
     /// The panic logic is provided by the caller via this closure.
+    ///
+    /// This doesn't need #[inline] because the function is generic
+    /// and will be separately instantiated for each call site.
     #[cold]
     #[track_caller]
     pub fn assert_failed_custom<F>(msg_fn: F)
