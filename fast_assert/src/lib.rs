@@ -1,4 +1,4 @@
-#![doc = include_str!("../../README.md")]
+#![doc = include_str!("../README.md")]
 
 /// A reimplementation of assert! that uses a closure to defer all
 /// panic-related work to the cold path.

@@ -8,6 +8,5 @@ license = "MIT OR Apache-2.0"
 keywords = ["assert", "assertion"]
 categories = ["rust-patterns"]
 description = "A faster assert!"
-readme = "../README.md"
 
 [dependencies]
