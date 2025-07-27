@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "fast_assert",
+    "test_crate",
+]
