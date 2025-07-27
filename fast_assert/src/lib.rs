@@ -1,5 +1,5 @@
 /// A reimplementation of assert! that uses a closure to defer all
-/// panic-related work, including argument creation, to the cold path.
+/// panic-related work to the cold path.
 #[macro_export]
 macro_rules! fast_assert {
     // Rule 1: Handles calls with only a condition, like my_assert!(x == y).
