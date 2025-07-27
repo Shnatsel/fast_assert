@@ -3,6 +3,8 @@ name = "test_crate"
 version = "0.1.0"
 edition = "2024"
 publish = false
+authors = ["Sergey \"Shnatsel\" Davidoff"]
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 fast_assert = {path = "../fast_assert"}
