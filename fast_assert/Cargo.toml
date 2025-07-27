@@ -2,5 +2,12 @@
 name = "fast_assert"
 version = "0.1.0"
 edition = "2024"
+authors = ["Sergey \"Shnatsel\" Davidoff"]
+repository = "https://github.com/Shnatsel/fast_assert.git"
+license = "MIT OR Apache-2.0"
+keywords = ["assert", "assertion"]
+categories = ["rust-patterns"]
+description = "A faster assert!"
+readme = "../README.md"
 
 [dependencies]
