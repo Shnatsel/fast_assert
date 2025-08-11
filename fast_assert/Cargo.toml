@@ -1,6 +1,6 @@
 [package]
 name = "fast_assert"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 authors = ["Sergey \"Shnatsel\" Davidoff"]
 repository = "https://github.com/Shnatsel/fast_assert.git"
