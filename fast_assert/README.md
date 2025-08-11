@@ -1,12 +1,13 @@
 # A faster `assert!` for Rust
 
 A drop-in replacement for the standard library's [`assert!`](https://doc.rust-lang.org/stable/std/macro.assert.html)
-macro that emits far less code in the hot codepath where the assertion holds. This reduces instruction cache pressure,
+macro that emits far less code in the hot function where the assertion holds. This reduces instruction cache pressure,
 and may allow for more optimizations by the compiler due to more aggressive inlining of hot functions.
 
-`fast_assert!` only adds [two](https://rust.godbolt.org/z/14hnj39sv) extra instructions to the hot path for the default error message
-and [three](https://rust.godbolt.org/z/fo4refc1d) instructions for a custom error message,
-while the standard library's `assert!` adds [five](https://rust.godbolt.org/z/Gczn8Ts54) instructions
+`fast_assert!` only adds [two](https://rust.godbolt.org/z/14hnj39sv) extra instructions to the hot path for the default error message.
+For a custom error message that prints more variables, it only adds
+[one jump instruction plus one instruction per printed variable](https://rust.godbolt.org/z/fo4refc1d).
+The standard library's `assert!` adds [five](https://rust.godbolt.org/z/Gczn8Ts54) instructions
 to the hot path for the default error message and [lots](https://rust.godbolt.org/z/hY5dGMPsh) for a custom error message.
 
 ## How?
